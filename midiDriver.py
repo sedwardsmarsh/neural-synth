@@ -18,6 +18,8 @@
 import time
 import rtmidi
 
+CH_MSG = 0xB0
+
 midiout = rtmidi.MidiOut()
 available_ports = midiout.get_ports()
 
@@ -26,16 +28,21 @@ if available_ports:
 else:
     midiout.open_virtual_port("My virtual output")
 
-while True:
-	with midiout:
-		for i in range(3):
-			print('new loop') 
-			# channel 1, middle C, velocity 112
-			note_on = [0x90, 60, 112]
-			note_off = [0x80, 60, 0]
-			midiout.send_message(note_on)
-			time.sleep(0.5)
-			midiout.send_message(note_off)
-			time.sleep(0.1)
+with midiout:
+	for i in range(3):
+		print('new loop')
+		# channel 1, middle C, velocity 112
+		#note_on = [0x90, 60, 112]
+		#note_off = [0x80, 60, 0]
+		# channel 1, control 5, value 0
+		ctrl_msg_left = [CH_MSG, 5, 0]
+		ctrl_msg_mid = [CH_MSG, 5, 63]
+		ctrl_msg_right = [CH_MSG, 5, 127]
+		midiout.send_message(ctrl_msg_left)
+		time.sleep(1)
+		midiout.send_message(ctrl_msg_mid)
+		time.sleep(1)
+		midiout.send_message(ctrl_msg_right)
+		time.sleep(1)
 
 del midiout
