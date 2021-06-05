@@ -14,6 +14,13 @@
 # Information above is paraphrased from Yamaha "What's MIDI?" booklet
 # Additional source: 
 # https://www.circuitbread.com/tutorials/midi-controller-knobs-buttons
+# --------------------------------------------------------------------------
+# The Massive midi configurations for this project can be saved inside
+# Massive. The conf. is recognized after closing and reopening Massive.
+# Use midiMapper.py to make a new midi configuration for Massive.
+
+# test 1, control a single oscillator:
+# - Wt-position, Intensity, Amp
 
 import time
 import rtmidi
@@ -35,9 +42,9 @@ with midiout:
 		#note_on = [0x90, 60, 112]
 		#note_off = [0x80, 60, 0]
 		# channel 1, control 5, value 0
-		ctrl_msg_left = [CH_MSG, 5, 0]
-		ctrl_msg_mid = [CH_MSG, 5, 63]
-		ctrl_msg_right = [CH_MSG, 5, 127]
+		ctrl_msg_left = [CH_MSG, 0, 0]
+		ctrl_msg_mid = [CH_MSG, 0, 63]
+		ctrl_msg_right = [CH_MSG, 0, 127]
 		midiout.send_message(ctrl_msg_left)
 		time.sleep(1)
 		midiout.send_message(ctrl_msg_mid)
