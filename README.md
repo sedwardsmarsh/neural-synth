@@ -3,8 +3,9 @@ Genetic Algorithm Synthesizer using Native Instruments Massive
 
 # installing requirements:
  6/14/21
+* recording audio with `sounddevice`!!!!
 * `pyaudio` now magically installs on the default `python3 -m venv ...` created virtual environment!!?
-        * decided to switch to using `sounddevice` instead of `pyaudio`, as it seems like there's more support and better documentation
+        * decided to switch to using `sounddevice` instead of `pyaudio`, for the simpler interface and better documentation
     * virtual env. information
         * `Python 3.8.2 (v3.8.2:7b3ab5921f, Feb 24 2020, 17:52:18) [Clang 6.0 (clang-600.0.57)] on darwin`
 
