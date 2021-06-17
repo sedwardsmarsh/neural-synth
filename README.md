@@ -1,7 +1,25 @@
 # ga-synth
 Genetic Algorithm Synthesizer using Native Instruments Massive
+<hr>
 
-# installing requirements:
+## ideas
+6/17/21
+* from dad: 
+    * compare performance of "society of the mind", many discrete GAs solving atomic tasks like pitch and filter control versus performance of gigantic "end to end GA"
+        * which converges faster?
+        * which has more genetic variance?
+            * does one method allow for easier control of genetic variance?
+        * what else is there to analyze
+    
+    * for fitness function (comparing sound that GA produces for a generation vs. target sound):
+        * what method yields best, most interesting, worst results?
+        * taking difference of audio file
+        * taking difference of spectrogram image
+        * taking difference of series of FFTs (for sounds that modulate over time)
+        * taking difference of series of spectrogram images (for sounds that modulate over time)
+    
+
+## installing requirements:
  6/14/21
 * recording audio with `sounddevice`!!!!
 * `pyaudio` now magically installs on the default `python3 -m venv ...` created virtual environment!!?
@@ -14,6 +32,7 @@ PRE 6/14/21
 * to install pyaudio, follow these requirements: http://people.csail.mit.edu/hubert/pyaudio/
     * when installing pyaudio using pip3 use the following command, updated from source: https://stackoverflow.com/questions/33513522/when-installing-pyaudio-pip-cannot-find-portaudio-h-in-usr-local-include
         * `pip3 install --global-option='build_ext' --global-option='-I/opt/homebrew/include' --global-option='-L/opt/homebrew/lib' pyaudio`
+    
     * Only installation succeeds using the above method. `pyaudio` fails when importing.
         * I think I need to re-install using an earlier version of python.
             * Based on this page: https://pypi.org/project/PyAudio/#modal-close I think only python 3.6 will work.
