@@ -17,7 +17,6 @@ Genetic Algorithm Synthesizer using Native Instruments Massive
         * taking difference of spectrogram image
         * taking difference of series of FFTs (for sounds that modulate over time)
         * taking difference of series of spectrogram images (for sounds that modulate over time)
-    
 
 ## installing requirements:
  6/14/21

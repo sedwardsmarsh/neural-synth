@@ -1,6 +1,6 @@
 # A utility script for building a midi mapping in Massive
 # - in massive's menu: File > Options... > Midi
-# 	- prefix each configuration in Massive with 'py'
+# - prefix each configuration in Massive with 'py'
 # --------------------------------------------------------------------------
 # Source: https://spotlightkid.github.io/python-rtmidi/#usage-example
 
