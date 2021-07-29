@@ -2,8 +2,19 @@
 Genetic Algorithm Synthesizer using Native Instruments Massive
 <hr>
 
+## current challenges
+
+### 7/28/21
+* silence in the start of the sound need to be removed
+    * https://youtu.be/at2NppqIZok contains a method for detecting the start of an audio sample and removing the silence from the start of the sample
+    * for now, I'll manually trim the audio samples to ensure the GA will work
+
 ## ideas
-6/17/21
+
+### 7/28/21
+* when comparing target audio file to the representative individual from the current population, can we compare individual directly to target audio? This would speed up the process of not having to re-write the current file to disk each time a new individual is generated.
+
+### 6/17/21
 * from dad: 
     * compare performance of "society of the mind", many discrete GAs solving atomic tasks like pitch and filter control versus performance of gigantic "end to end GA"
         * which converges faster?
