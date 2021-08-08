@@ -7,7 +7,7 @@
 #	- first nybble contains message name
 #	- second nybble contains MIDI channel number
 # - Second byte 2^[0, 127] can represent the control number (kind of knob).
-# - Third byte 2^[0, 127] can represent the signal value 
+# - Third byte 2^[0, 127] can represent the control state 
 # --------------------------------------------------------------------------
 # To update a parameter we want to send a "control change" message.
 # --------------------------------------------------------------------------
@@ -37,7 +37,7 @@ else:
 
 # sends array of midi messages to update Massive parameters
 # - messages: array of tuples
-#	- (control number, signal value)
+#	- [(control number, control state)]
 def update_controls(messages):
 	
 	with midiout:

@@ -9,14 +9,19 @@ class GeneticAlgorithm:
 
   # internal chromosome class
   class Chromosome:
-    def __init__(self, g=None, genes=[]):
-      # g is the number of genes per chromosome
-      if g == None:
-        g = 10
+
+    # intializes a chromosome 
+    # - num_genes: the number of genes per chromosome
+    # - genes: manual array of genes for chromosome
+    #   - array of tuples [(control number, control state)]
+    def __init__(self, num_genes=None, genes=[]):
+      if num_genes == None:
+        num_genes = 3
       if genes != []:
         self.genes = genes
       else:
-        self.genes = np.random.randint(0, 2, g)
+        # genes is array of (control numer, control state) tuples
+        self.genes = [(c, np.random.randint(0, 256)) for c in range(num_genes)]
       self.fitness = None
 
     def __str__(self):
@@ -40,7 +45,10 @@ class GeneticAlgorithm:
     # 2. record audio from Massive
     # 3. compare recording to target sound
     for i in self.population:
-      i.fitness = manager.calc_GA_fitness
+      midiDriver.update_controls(i.genes)
+      rec = audioRecorder.rec_mono_16bit_48kHz()
+      corr = audioComparator.cmp_mono_16bit_48kHz_numba('target sound.wav', rec)
+      i.fitness = corr
   
   def sort_population(self):
     self.population.sort(key=lambda c: c.fitness)

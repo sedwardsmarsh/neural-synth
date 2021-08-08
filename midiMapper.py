@@ -20,15 +20,15 @@ else:
 print('right click on control in Massive and select \'midi learn\'')
 print('change the control value each time, to map to different controls')
 
-control = 2
+control = 3
 
 with midiout:
     print(f'control = {control} is mapped')
     ctrl_msg_left = [CH_MSG, control, 0]
     ctrl_msg_right = [CH_MSG, control, 127]
     midiout.send_message(ctrl_msg_left)
-    time.sleep(0.1)
+    time.sleep(0.5)
     midiout.send_message(ctrl_msg_right)
-    time.sleep(0.1)
+    time.sleep(0.5)
 
 del midiout
