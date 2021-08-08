@@ -33,23 +33,18 @@ available_ports = midiout.get_ports()
 if available_ports:
     midiout.open_port(0)
 else:
-    midiout.open_virtual_port("My virtual output")
+    midiout.open_virtual_port("Virtual AwDeOh")
 
-with midiout:
-	for i in range(3):
-		print('new loop')
-		# channel 1, middle C, velocity 112
-		#note_on = [0x90, 60, 112]
-		#note_off = [0x80, 60, 0]
-		# channel 1, control 5, value 0
-		ctrl_msg_left = [CH_MSG, 0, 0]
-		ctrl_msg_mid = [CH_MSG, 0, 63]
-		ctrl_msg_right = [CH_MSG, 0, 127]
-		midiout.send_message(ctrl_msg_left)
-		time.sleep(1)
-		midiout.send_message(ctrl_msg_mid)
-		time.sleep(1)
-		midiout.send_message(ctrl_msg_right)
-		time.sleep(1)
+# sends array of midi messages to update Massive parameters
+# - messages: array of tuples
+#	- (control number, signal value)
+def update_controls(messages):
+	
+	with midiout:
 
-del midiout
+		for control, value in messages:
+			print(f'control is {control}, value is {value}')
+			ctrl_msg = [CH_MSG, control, value]
+			midiout.send_message(ctrl_msg)
+
+	del midiout
