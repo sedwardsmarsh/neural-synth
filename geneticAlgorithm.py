@@ -1,6 +1,8 @@
 # A file that contains the genetic algorithm implementation
 
 import numpy as np
+import midiDriver
+import audioRecorder
 import audioComparator
 
 class GeneticAlgorithm:
@@ -33,8 +35,12 @@ class GeneticAlgorithm:
 
   # updates the fitness score for the entire population
   def update_fitness(self):
+
+    # 1. send params (genes) to Massive
+    # 2. record audio from Massive
+    # 3. compare recording to target sound
     for i in self.population:
-      i.fitness = 
+      i.fitness = manager.calc_GA_fitness
   
   def sort_population(self):
     self.population.sort(key=lambda c: c.fitness)
