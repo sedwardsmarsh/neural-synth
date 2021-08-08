@@ -42,9 +42,9 @@ def update_controls(messages):
 	
 	with midiout:
 
-		for control, value in messages:
-			print(f'control is {control}, value is {value}')
-			ctrl_msg = [CH_MSG, control, value]
+		for c_number, c_state in messages:
+			print(f'control is {c_number}, value is {c_state}')
+			ctrl_msg = [CH_MSG, c_number, c_state]
 			midiout.send_message(ctrl_msg)
 
 	del midiout
