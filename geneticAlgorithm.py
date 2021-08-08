@@ -1,6 +1,7 @@
 # A file that contains the genetic algorithm implementation
 
 import numpy as np
+import audioComparator
 
 class GeneticAlgorithm:
 
@@ -20,18 +21,20 @@ class GeneticAlgorithm:
       return str(self.genes)
         
   
-  def __init__(self, n=10, g=10):
+  # Initializes the genetic algorithm population
+  # - pop_size: the population size
+  # - num_genes: the number of genes per individual
+  def __init__(self, pop_size=10, num_genes=10):
     self.parents = []
-    # n is the population size
     self.population = []
-    for i in range(n):
-      C = self.Chromosome(g)
+    for i in range(pop_size):
+      C = self.Chromosome(num_genes)
       self.population.append(C)
 
-  def update_fitness(self, style='sum'):
-      if style == 'sum':
-        for i in range(len(self.population)):
-          self.population[i].fitness = np.sum(self.population[i].genes)
+  # updates the fitness score for the entire population
+  def update_fitness(self):
+    for i in self.population:
+      i.fitness = 
   
   def sort_population(self):
     self.population.sort(key=lambda c: c.fitness)

@@ -14,5 +14,5 @@ def rec_mono_16bit_48kHz(duration=2, samplerate=48000, channels=1):
 
     # wait for recording to finish
     sd.wait()
-    
+
     return myrecording
