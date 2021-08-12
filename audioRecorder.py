@@ -8,11 +8,11 @@ import sounddevice as sd
 # - samplerate: sample rate
 # - channels:   number of audio channels
 # Returns a numpy array of the audio recording
-def rec_mono_16bit_48kHz(duration=2, samplerate=48000, channels=1):
+def rec_mono_16bit_8kHz(duration=2, samplerate=8000, channels=1):
 
     myrecording = sd.rec(int(duration * samplerate), samplerate=samplerate, channels=channels)
 
     # wait for recording to finish
     sd.wait()
 
-    return myrecording
+    return myrecording, samplerate

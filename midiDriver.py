@@ -26,20 +26,29 @@ import time
 import rtmidi
 
 CH_MSG = 0xB0
+NOTE_ON_MSG = 0x90
+NOTE_OFF_MSG = 0x80
+MIN_VEL = 0
+MAX_VEL = 127
 
-midiout = rtmidi.MidiOut()
-available_ports = midiout.get_ports()
+# initializes rtmidi: virtual midi output port
+def init_rtmidi():
+	midiout = rtmidi.MidiOut()
+	available_ports = midiout.get_ports()
 
-if available_ports:
-    midiout.open_port(0)
-else:
-    midiout.open_virtual_port("Virtual AwDeOh")
+	if available_ports:
+		midiout.open_port(0)
+	else:
+		midiout.open_virtual_port("Virtual AwDeOh")
+
+	return midiout
 
 # sends array of midi messages to update Massive parameters
 # - messages: array of tuples
 #	- [(control number, control state)]
 def update_controls(messages):
-	
+
+	midiout = init_rtmidi()
 	with midiout:
 
 		for c_number, c_state in messages:
@@ -48,3 +57,28 @@ def update_controls(messages):
 			midiout.send_message(ctrl_msg)
 
 	del midiout
+
+# send array of midi notes for Massive to play
+# - notes: array of tuples
+#	- [(note number, note duration in seconds)]
+def play_notes(notes):
+
+	midiout = init_rtmidi()
+	with midiout:
+
+		for note_num, note_dur in notes:
+			print(f'note number is {note_num}, note duration is {note_dur}s, playing...', end=' ')
+			# play note
+			note_on_msg = [NOTE_ON_MSG, note_num, MAX_VEL]
+			midiout.send_message(note_on_msg)
+			time.sleep(note_dur)
+			# stop note
+			note_off_msg = [NOTE_OFF_MSG, note_num, MAX_VEL]
+			midiout.send_message(note_off_msg)
+			print('done')
+
+	del midiout
+
+# simple function that plays A @ 440Hz, MIDI note = 69
+def test_tone():
+	play_notes([(69, 2)])

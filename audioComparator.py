@@ -8,19 +8,19 @@ from numba.core.decorators import njit
 import numpy as np
 
 # function that normalizes an array containing:
-# - a Mono, 16 bit, 48KHz wav file
+# - a Mono, 16 bit, 8KHz wav file
 # uses numba to speed things up
-@njit
+# @njit
 def normalize(audio):
     audio = audio.astype(np.float32)
     audio = audio / (2.**15)
     return audio
 
 # function that compares .wav file and numpy array
-# file format: Mono, 16 bit, 48KHz
+# file format: Mono, 16 bit, 8KHz
 # returns the difference between the files as a sum
-@njit
-def cmp_mono_16bit_48kHz_numba(filepath, array):
+# @njit
+def cmp_mono_16bit_4kHz_numba(filepath, array):
     # open files
     w1 = wave.open(filepath, 'r')
 
@@ -34,8 +34,11 @@ def cmp_mono_16bit_48kHz_numba(filepath, array):
     # close the files
     w1.close()
 
-    # convert the data
-    data1 = wave.struct.unpack("%dh"%nframes*nchannels, data1)
+    # # convert the data
+    # data1 = wave.struct.unpack("%dh"%nframes*nchannels, data1)
+
+    # convert byte array to numpy array
+    data1 = np.frombuffer(data1, dtype=np.float32)
 
     # normalize the filedata & array
     data1 = normalize(data1)
@@ -43,8 +46,23 @@ def cmp_mono_16bit_48kHz_numba(filepath, array):
 
     # calculate the difference
     difference = 0
-    for i in range(0, nframes):
-        difference += abs(data1[i] - data2[i])
+    for frame1, frame2 in zip(data1, data2):
+        difference += abs(frame1 - frame2)
 
     # return the difference
     return difference
+
+import audioRecorder
+import sounddevice as sd
+import soundfile as sf
+import midiDriver
+
+midiDriver.test_tone()
+rec, samplerate = audioRecorder.rec_mono_16bit_8kHz()
+# rec, samplerate = sf.read('target sound.wav')
+sd.play(rec, samplerate)
+sd.stop()
+
+# testing function
+# corr = cmp_mono_16bit_48kHz_numba('target sound.wav', rec)
+# print(f'corr is {corr}')
