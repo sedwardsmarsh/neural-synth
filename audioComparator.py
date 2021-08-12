@@ -4,13 +4,10 @@
 # --------------------------------------------------------------------------
 
 import wave
-from numba.core.decorators import njit
 import numpy as np
 
 # function that normalizes an array containing:
 # - a Mono, 16 bit, 8KHz wav file
-# uses numba to speed things up
-# @njit
 def normalize(audio):
     audio = audio.astype(np.float32)
     audio = audio / (2.**15)
@@ -19,7 +16,6 @@ def normalize(audio):
 # function that compares .wav file and numpy array
 # file format: Mono, 16 bit, 8KHz
 # returns the difference between the files as a sum
-# @njit
 def cmp_mono_16bit_4kHz_numba(filepath, array):
     # open files
     w1 = wave.open(filepath, 'r')
