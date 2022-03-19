@@ -1,8 +1,34 @@
 # ga-synth
-Genetic Algorithm Synthesizer using Native Instruments Massive
-<hr>
+Neural Network & Genetic Algorithm Synthesizer using Native Instruments Massive (or puredata via OSC?)
+---
+
+Goal of the project: Reproduct the input sound to the best of the network's ability, do not attempt to preprocess the input sound in any way. 
+
+---
+
+* Neural Network for heavy lifting (getting the sound as close as possible to the target sound)
+* GA for fine-tuning minizing the patch loss as close as possible
 
 ## current challenges
+
+### 3/18/21
+* What is the best way to train the network?
+    1. send MIDI to Massive
+    2. record output from Massive
+    3. give the data to the model:
+        1. convert the data to a spectrogram, so the network processes images
+        2. process the raw audio data
+    4. the model outputs the parameters for Massive to achieve the sound
+
+### 8/12/21
+* switched to using conda, because its the official method of getting tensorflow to work on M1. 
+    * source: https://developer.apple.com/metal/tensorflow-plugin/
+* anaconda (source for conda packages) issues:
+    * rtmidi isn't a package in anaconda, yet
+    * conda environment causes issues for sounddevice underlying libraries
+* installed a new virtual environment in this repo called "venv"
+    * contains the higher-performance edition of tensorflow 
+    * however, doesn't work with sounddevice
 
 ### 7/28/21
 * silence in the start of the sound need to be removed
@@ -10,6 +36,11 @@ Genetic Algorithm Synthesizer using Native Instruments Massive
     * for now, I'll manually trim the audio samples to ensure the GA will work
 
 ## ideas
+
+### 8/12/21
+* a possible model architecture to try, in keras: 
+    * https://github.com/ruohoruotsi/LSTM-Music-Genre-Classification/blob/master/lstm_genre_classifier_keras.py
+    * https://medium.com/in-pursuit-of-artificial-intelligence/deep-learning-using-raw-audio-files-66d5e7bf4cca
 
 ### 7/28/21
 * when comparing target audio file to the representative individual from the current population, can we compare individual directly to target audio? This would speed up the process of not having to re-write the current file to disk each time a new individual is generated.
