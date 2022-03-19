@@ -12,6 +12,8 @@ Goal of the project: Reproduct the input sound to the best of the network's abil
 ## current challenges
 
 ### 3/18/21
+* soundfile will not install in the special tensorflow alpha m1 venv
+    * resulting error: `OSError: sndfile library not found`, although it is installed.
 * What is the best way to train the network?
     1. send MIDI to Massive
     2. record output from Massive
