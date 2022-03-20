@@ -1,6 +1,11 @@
-# testing audio files
+# tensorflow alpha installer
+tf_m1_alpha
+
+# testing audio files & dataset & dataset generator
 *.wav
 *.mp3
+simple_dataset
+audio_midi_venv
 
 # pycharm garbage
 *.idea
