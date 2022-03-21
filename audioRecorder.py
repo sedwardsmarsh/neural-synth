@@ -5,17 +5,19 @@ import sounddevice as sd
 import midiDriver
 import time
 
-# don't forget to turn on Loopback: "Massive Internal Audio"
-sd.default.device = 'Massive Internal Audio'
 
-# Record audio to an array
-# - duration:   recording length in seconds
-# - samplerate: sample rate
-# - channels:   number of audio channels
-# Returns a numpy array of the audio recording
-def rec_mono_16bit(duration=2., samplerate=44100, channels=1):
+def rec_mono_16bit(duration=2.0, samplerate=44100, channels=1):
+    '''Return recorded audio as an array.
+
+    Keyword args:
+    duration -- recording length in seconds
+    samplerate -- sample rate
+    channels -- number of audio channels
+    '''
+    # don't forget to turn on Loopback: "Massive Internal Audio"
+    sd.default.device = 'Massive Internal Audio'
+    # record and wait for the recording to finish
     myrecording = sd.rec(int(duration * samplerate), samplerate=samplerate, channels=channels)
-    # wait for recording to finish
     sd.wait()
 
     return myrecording, samplerate
