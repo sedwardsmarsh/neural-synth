@@ -25,17 +25,15 @@ def make_simple_dataset(num_examples=100):
 def render_dataset(dataset):
 
     try:
-        os.mkdir('simple_dataset')
+        os.mkdir('data/simple_dataset')
     except FileExistsError:
-        for f in os.listdir('simple_dataset'):
-            os.remove(f'simple_dataset/{f}')
+        for f in os.listdir('data/simple_dataset'):
+            os.remove(f'data/simple_dataset/{f}')
 
     for n in dataset:
-        # send parameter updates to massive
         midiDriver.update_controls(n)
-        # record audio and write sound file
         data, samplerate = audioRecorder.play_and_rec()
-        sf.write(f'simple_dataset/{n}.wav', data, samplerate)
+        sf.write(f'data/simple_dataset/{n}.wav', data, samplerate)
 
 
 render_dataset(make_simple_dataset(100))
