@@ -3,8 +3,13 @@
 # - https://stackoverflow.com/questions/3172911/compare-two-audio-files
 # --------------------------------------------------------------------------
 
+from typing import List, Tuple
 import wave
 import numpy as np
+import audioRecorder
+import sounddevice as sd
+import soundfile as sf
+import midiDriver
 
 # function that normalizes an array containing:
 # - a Mono, 16 bit, 8KHz wav file
@@ -48,17 +53,9 @@ def cmp_mono_16bit_4kHz_numba(filepath, array):
     # return the difference
     return difference
 
-import audioRecorder
-import sounddevice as sd
-import soundfile as sf
-import midiDriver
 
 midiDriver.test_tone()
 rec, samplerate = audioRecorder.rec_mono_16bit_8kHz()
 # rec, samplerate = sf.read('target sound.wav')
 sd.play(rec, samplerate)
 sd.stop()
-
-# testing function
-# corr = cmp_mono_16bit_48kHz_numba('target sound.wav', rec)
-# print(f'corr is {corr}')
