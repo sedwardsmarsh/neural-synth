@@ -11,6 +11,24 @@ Goal of the project: Reproduct the input sound to the best of the network's abil
 
 ## current challenges
 
+### 3/19/21
+* Decided to use two separate virtual environments:
+    * one environment for generating dataset 
+        * `$ source audio_midi_venv/bin/activate`
+        * its a python virtual environment called *audio_midi_venv*
+    * one environment for training/inference with tensorflow
+        * `$ conda activate env_tensorflow`
+        * its a conda environment called *env_tensorflow*
+            * installation process, following this video: https://www.youtube.com/watch?v=oZjau-aUk0U&t=373s
+                1. install conda miniforge
+                2. `$ conda create --name <venv name> python=3.9`
+                3. `$ conda activate <venv name>`
+                4. `$ conda install -c apple tensorflow-deps`
+                5. `$ pip install tensorflow-macos`, this might fail. let it crash.
+                6. `$ pip install tensorflow-metal`
+                7. if crash when importing tensorflow, run: `$ pip install tensorflow-macos --no-dependencies`
+                8. if crash when importing tensorflow for flatbuffers, run: `$ pip install flatbuffers --no-dependencies`
+
 ### 3/18/21
 * soundfile will not install in the special tensorflow alpha m1 venv
     * resulting error: `OSError: sndfile library not found`, although it is installed.
