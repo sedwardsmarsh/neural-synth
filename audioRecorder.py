@@ -13,7 +13,7 @@ sd.default.device = 'Massive Internal Audio'
 # - samplerate: sample rate
 # - channels:   number of audio channels
 # Returns a numpy array of the audio recording
-def rec_mono_16bit_8kHz(duration=2., samplerate=8000, channels=1):
+def rec_mono_16bit(duration=2., samplerate=44100, channels=1):
     myrecording = sd.rec(int(duration * samplerate), samplerate=samplerate, channels=channels)
     # wait for recording to finish
     sd.wait()
@@ -26,7 +26,7 @@ def play_and_rec():
     # start test tone
     midiDriver.start_test_tone()
     # record audio and wait
-    recording, samplerate = rec_mono_16bit_8kHz(duration=0.1)
+    recording, samplerate = rec_mono_16bit(duration=0.1)
     # stop test tone
     midiDriver.stop_test_tone()
 
