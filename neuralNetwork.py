@@ -1,24 +1,56 @@
-# #import libraries
+from posixpath import split
+from typing import List, Tuple
 import tensorflow as tf
+from tensorflow.python.keras import Sequential
+from tensorflow.python.keras.layers import InputLayer, GRU, Dense
 import time
+import glob
+import os
 from scipy.io.wavfile import read
 
-# #download fashion mnist dataset
-# fashion_mnist = tf.keras.datasets.fashion_mnist
-# (train_images, train_labels), (test_images, test_labels) = fashion_mnist.load_data()
+def esr(y_path: str, y_hat_path: str) -> float:
+    '''Returns the Error-to-Signal Ratio.
 
-# train_set_count = len(train_labels)
-# test_set_count = len(test_labels)
+    Keyword arguments:
+    y -- the groundtruth file
+    y_hat -- the prediction file
+    '''
+    y_sample_rate, y = read(y_path)
+    y_hat_sample_rate, y_hat = read(y_hat_path)
+    power = 2.0
+    numerator = sum(abs(y - y_hat)**power)
+    denominator = sum(abs(y)**power)
+    return numerator / denominator  
 
-# #setup start time
-# t0 = time.time()
 
-# #normalize images
+def construct_datasets(data_path: str='data/simple_dataset/*', train_perc: float=0.8) -> Tuple[List, List, List, List]: 
+    '''Construct the train, train_labels & test, test_labels datasets.
+
+    Keyword arguments:
+    data_path -- where the data lives
+    '''
+    assert train_perc < 1, 'train_perc must be less than 1'
+    data_paths = glob.glob(data_path)
+    split_idx = int(0.8 * len(data_paths))
+    train_paths, test_paths = data_paths[:split_idx], data_paths[split_idx:]
+    train_data, test_data = [], []
+    train_labels, test_labels = [], []
+    for file in train_paths:
+        _, data = read(file)
+        train_data.append(data)
+        train_labels.append(os.path.basename(file).split('.')[0])
+    for file in test_paths:
+        _, data = read(file)
+        test_data.append(data)
+        test_labels.append(os.path.basename(file).split('.')[0])
+    return train_data, train_labels, test_data, test_labels
+
+# normalize images
 # train_images = train_images / 255.0
 # test_images = test_images / 255.0
 
 # #create ML model
-# model = tf.keras.Sequential([
+# model = Sequential([
 #     tf.keras.layers.Flatten(input_shape=(28, 28)),
 #     tf.keras.layers.Dense(128, activation='relu'),
 #     tf.keras.layers.Dense(64, activation='relu'),
@@ -48,25 +80,3 @@ from scipy.io.wavfile import read
 # print(f'Testing set contained {test_set_count} images')
 # print(f'Model achieved {test_acc:.2f} testing accuracy')
 # print(f'Training and testing took {total_time:.2f} seconds')
-
-
-def esr(y_path: str, y_hat_path: str) -> float:
-    '''Returns the Error-to-Signal Ratio.
-
-    Keyword arguments:
-    y -- the groundtruth file
-    y_hat -- the prediction file
-    '''
-    y_sample_rate, y = read(y_path)
-    y_hat_sample_rate, y_hat = read(y_hat_path)
-    power = 2.0
-    numerator = sum(abs(y - y_hat)**power)
-    denominator = sum(abs(y)**power)
-    return numerator / denominator    
-
-y_file_path = '/Users/sadedwar/Music/Ableton/EXPORTS/error to signal ratio test tones/test sin in phase.wav'
-y_hat_file_path = '/Users/sadedwar/Music/Ableton/EXPORTS/error to signal ratio test tones/test sin out of phase.wav'
-
-print(f'{y_file_path=}')
-print(f'{y_hat_file_path=}')
-print(f'{esr(y_file_path, y_hat_file_path)=}\n')
