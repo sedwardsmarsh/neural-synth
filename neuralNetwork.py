@@ -23,7 +23,7 @@ def esr(y_path: str, y_hat_path: str) -> float:
     return numerator / denominator  
 
 
-def construct_datasets(data_path: str='data/simple_dataset/*', train_perc: float=0.8) -> Tuple[List, List, List, List]: 
+def construct_dataset(data_path: str='data/simple_dataset/*', train_perc: float=0.8) -> Tuple[List, List, List, List]: 
     '''Construct the train, train_labels & test, test_labels datasets.
 
     Keyword arguments:
@@ -44,6 +44,17 @@ def construct_datasets(data_path: str='data/simple_dataset/*', train_perc: float
         test_data.append(data)
         test_labels.append(os.path.basename(file).split('.')[0])
     return train_data, train_labels, test_data, test_labels
+
+train_data, train_labels, test_data, test_labels = construct_dataset()
+print(f'{len(train_data)=}')
+print(f'{len(train_labels)=}')
+print(f'{train_labels[0:3]=}')
+print(f'{train_data[0:2]=}')
+
+print(f'{len(test_data)=}')
+print(f'{len(test_labels)=}')
+print(f'{test_labels[0:3]=}')
+print(f'{test_data[0:2]=}')
 
 # normalize images
 # train_images = train_images / 255.0
