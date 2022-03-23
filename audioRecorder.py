@@ -28,7 +28,7 @@ def play_and_rec():
     # start test tone
     midiDriver.start_test_tone()
     # record audio and wait
-    recording, samplerate = rec_mono_16bit(duration=0.1)
+    recording, samplerate = rec_mono_16bit(duration=0.05)
     # stop test tone
     midiDriver.stop_test_tone()
 
