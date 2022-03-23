@@ -52,7 +52,7 @@ def update_controls(messages):
     midiout = init_rtmidi()
     with midiout:
         for c_number, c_state in messages:
-            print(f'control is {c_number}, value is {c_state}')
+            # print(f'control is {c_number}, value is {c_state}')
             ctrl_msg = [CH_MSG, c_number, c_state]
             midiout.send_message(ctrl_msg)
 
