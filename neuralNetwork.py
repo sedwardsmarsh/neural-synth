@@ -23,6 +23,25 @@ def esr(y_path: str, y_hat_path: str) -> float:
     return numerator / denominator  
 
 
+def normalize(array: List, scale_max: int, scale_min: int) -> List:
+    '''Returns a normalized array.
+    
+    Keyword arguments:
+    array -- array to normalize
+    scale_max -- maximum value to scale between
+    scale_min -- minimum value to scale between
+
+    Source: https://www.geeksforgeeks.org/how-to-normalize-an-array-in-numpy-in-python/
+    '''
+    norm_arr = []
+    diff = scale_max - scale_min
+    diff_arr = max(array) - min(array)    
+    for i in array:
+        temp = (((i - min(array))*diff)/diff_arr) + scale_min
+        norm_arr.append(temp)
+    return norm_arr
+
+
 def partition_dataset(data_path: str='data/simple_dataset/*', train_perc: float=0.8) -> Tuple[List, List, List, List]: 
     '''Partition into train, train_labels & test, test_labels datasets.
 
