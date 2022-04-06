@@ -24,16 +24,21 @@ def make_simple_dataset(num_examples=100):
 # each parameter configuration
 def render_dataset(dataset):
 
-    try:
-        os.mkdir('data/simple_dataset')
-    except FileExistsError:
-        for f in os.listdir('data/simple_dataset'):
-            os.remove(f'data/simple_dataset/{f}')
+    sub_dir = random.randint(0, 1000000)
 
-    for n in dataset:
+    try:
+        os.mkdir(f'data/simple_dataset/{sub_dir}')
+    except FileExistsError:
+        print('Dumb luck: subdirectory already exists. Run again.')
+        # for f in os.listdir('data/simple_dataset'):
+        #     os.remove(f'data/simple_dataset/{f}')
+
+    for i, n in enumerate(dataset):
+        if i % (len(dataset) * .1) == 0:
+            print(f'{i/len(dataset):.2f}% complete')
         midiDriver.update_controls(n)
         data, samplerate = audioRecorder.play_and_rec()
-        sf.write(f'data/simple_dataset/{n}.wav', data, samplerate)
+        sf.write(f'data/simple_dataset/{sub_dir}/{n}.wav', data, samplerate)
 
-
-render_dataset(make_simple_dataset(100))
+number_of_examples = 1000
+render_dataset(make_simple_dataset(number_of_examples))
