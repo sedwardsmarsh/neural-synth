@@ -12,7 +12,14 @@ Goal of the project: Reproduct the input sound to the best of the network's abil
 ## starlog
 
 ### 4/6/22
+* Trying one last time to install sounddevice into tensorflow environment
+    * considering: alternative to sounddevice library
+    * **FINALLY** got it working. I exported the `environment.yaml`, but here's the manual installation process:
+        1. `pip install python-rtmidi soundfile scipy`
+        2. `conda install -c conda-forge libsndfile`
 * I need a custom loss function (Error-to-Signal Ratio)
+    * I sketched a custom train loop iteration in noteability in the note "Tensorflow autosynth"
+    * might be useful: https://towardsdatascience.com/custom-loss-function-in-tensorflow-eebcd7fed17a
 * I need to implement a custom training loop
     * evaluate parameters in Massive by recording audio and measuring loss between recorded audio and target signal
 * Getting `ValueError: No gradients provided for any variable`.
