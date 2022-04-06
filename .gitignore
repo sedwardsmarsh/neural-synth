@@ -4,7 +4,7 @@ tf_m1_alpha
 # testing audio files & dataset & dataset generator
 *.wav
 *.mp3
-simple_dataset
+data
 audio_midi_venv
 
 # pycharm garbage
