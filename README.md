@@ -9,9 +9,21 @@ Goal of the project: Reproduct the input sound to the best of the network's abil
 * Neural Network for heavy lifting (getting the sound as close as possible to the target sound)
 * GA for fine-tuning minizing the patch loss as close as possible
 
-## current challenges
+## starlog
 
-### 3/19/21
+### 4/6/22
+* I need a custom loss function (Error-to-Signal Ratio)
+* I need to implement a custom training loop
+    * evaluate parameters in Massive by recording audio and measuring loss between recorded audio and target signal
+* Getting `ValueError: No gradients provided for any variable`.
+    * from reading SO, seems like its and issue when using non-differentiable functions in your loss fn.
+
+### 3/24/22
+* InputLayer to the model is confusing. Omitting the batch size seems to fix things.
+    * Wondering if `feature` in GRU/LSTM input requiremnts is the number of input features or a feature stream
+* Might need to add a Flatten layer between GRU and Dense layers
+
+### 3/19/22
 * Decided to use two separate virtual environments:
     * one environment for generating dataset 
         * `$ source audio_midi_venv/bin/activate`
@@ -29,7 +41,7 @@ Goal of the project: Reproduct the input sound to the best of the network's abil
                 7. if crash when importing tensorflow, run: `$ pip install tensorflow-macos --no-dependencies`
                 8. if crash when importing tensorflow for flatbuffers, run: `$ pip install flatbuffers --no-dependencies`
 
-### 3/18/21
+### 3/18/22
 * soundfile will not install in the special tensorflow alpha m1 venv
     * resulting error: `OSError: sndfile library not found`, although it is installed.
 * What is the best way to train the network?
