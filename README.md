@@ -9,7 +9,10 @@ Goal of the project: Reproduct the input sound to the best of the network's abil
 * Neural Network for heavy lifting (getting the sound as close as possible to the target sound)
 * GA for fine-tuning minizing the patch loss as close as possible
 
-## starlog
+## starlog/TODO
+
+### 4/7/22
+* need to update installation instructions
 
 ### 4/6/22
 * Trying one last time to install sounddevice into tensorflow environment
@@ -17,13 +20,14 @@ Goal of the project: Reproduct the input sound to the best of the network's abil
     * **FINALLY** got it working. I exported the `environment.yaml`, but here's the manual installation process:
         1. `pip install python-rtmidi soundfile scipy`
         2. `conda install -c conda-forge libsndfile`
-* I need a custom loss function (Error-to-Signal Ratio)
+* **I need a custom loss function (Error-to-Signal/Signal-Noise Ratio)**
     * I sketched a custom train loop iteration in noteability in the note "Tensorflow autosynth"
     * might be useful: https://towardsdatascience.com/custom-loss-function-in-tensorflow-eebcd7fed17a
 * I need to implement a custom training loop
     * evaluate parameters in Massive by recording audio and measuring loss between recorded audio and target signal
 * Getting `ValueError: No gradients provided for any variable`.
     * from reading SO, seems like its and issue when using non-differentiable functions in your loss fn.
+    * I think this is a problem because I haven't truly implemented the proper loss function yet.
 
 ### 3/24/22
 * InputLayer to the model is confusing. Omitting the batch size seems to fix things.
@@ -99,7 +103,7 @@ Goal of the project: Reproduct the input sound to the best of the network's abil
         * taking difference of series of FFTs (for sounds that modulate over time)
         * taking difference of series of spectrogram images (for sounds that modulate over time)
 
-## installing requirements:
+## installing requirements WARNING NOT UP TO DATE:
  6/14/21
 * recording audio with `sounddevice`!!!!
 * `pyaudio` now magically installs on the default `python3 -m venv ...` created virtual environment!!?
