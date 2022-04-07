@@ -19,7 +19,6 @@ def rec_mono_16bit(duration=2.0, samplerate=44100, channels=1):
     # record and wait for the recording to finish
     myrecording = sd.rec(int(duration * samplerate), samplerate=samplerate, channels=channels)
     sd.wait()
-
     return myrecording, samplerate
 
 
@@ -31,5 +30,4 @@ def play_and_rec():
     recording, samplerate = rec_mono_16bit(duration=0.05)
     # stop test tone
     midiDriver.stop_test_tone()
-
     return recording, samplerate
