@@ -6,8 +6,8 @@
 # - First byte is interpreted as two nybbles
 #	- first nybble contains message name
 #	- second nybble contains MIDI channel number
-# - Second byte 2^[0, 127] can represent the control number (kind of knob).
-# - Third byte 2^[0, 127] can represent the control state 
+# - Second byte 2^7 [0, 127] can represent the control number (kind of knob).
+# - Third byte 2^7 [0, 127] can represent the control state 
 # --------------------------------------------------------------------------
 # To update a parameter we want to send a "control change" message.
 # --------------------------------------------------------------------------
@@ -19,7 +19,7 @@
 # Massive. The conf. is recognized after closing and reopening Massive.
 # Use midiMapper.py to make a new midi configuration for Massive.
 
-# test 1, control a single oscillator:
+# test 1, control a single oscillator module:
 # - Wt-position, Intensity, Amp
 
 import time
