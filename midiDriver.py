@@ -36,12 +36,10 @@ MAX_VEL = 127
 def init_rtmidi():
     midiout = rtmidi.MidiOut()
     available_ports = midiout.get_ports()
-
     if available_ports:
         midiout.open_port(0)
     else:
         midiout.open_virtual_port("Virtual AwDeOh")
-
     return midiout
 
 
@@ -55,7 +53,6 @@ def update_controls(messages):
             # print(f'control is {c_number}, value is {c_state}')
             ctrl_msg = [CH_MSG, c_number, c_state]
             midiout.send_message(ctrl_msg)
-
     del midiout
 
 
@@ -75,7 +72,6 @@ def play_notes(notes):
             note_off_msg = [NOTE_OFF_MSG, note_num, MAX_VEL]
             midiout.send_message(note_off_msg)
             print('done')
-
     del midiout
 
 
