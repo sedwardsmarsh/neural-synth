@@ -11,12 +11,24 @@ Goal of the project: Reproduct the input sound to the best of the network's abil
 
 ## starlog/TODO
 
+### 4/11/22
+* Had a very enlightening conversation with Ryan (stilgar) on discord. He suggested training the model to learn the parameter positions for each patch, instead of trying to input the model's predicted parameters into Massive and then measure the resulting ESR/SNR. This should work fine because the model will have the audio buffer as input and will definitely be differentiable, since we're not trying to convert the model predictions into some non-differentiable form i.e. running it thru Massive. 
+* Maybe using a genetic algorithm to train the network weights? 
+* This problem seems so close to being solvable, ESR would be the perfect way to measure loss! Except that the model isn't producing an audio signal, unlike Jatin's guitar pedal.
+* converting a tensor to a numpy array is difficult https://github.com/tensorflow/tensorflow/issues/28840
+    * I'm going to try eager execution to allow conversion from tensor to numpy array
+* After reading SO and getting help from the tensorflow discord, it seems like reinforcement learning is the way to go. Apparently, this is because the "function" I need to use to convert the model parameters into a waveform via Massive is not differentiable, i.e. there's no way to measure what model outputs lead to lower ESR after plugging them into Massive.
+    * Still going to try converting model parameters to numpy arrays and see where that goes.
+
 ### 4/7/22
+* I'm asking for help on the tensorflow discord
+* I'm thinking that a custom loss function is downstream of where I can convert the output of the model into audio signals to measure Error-to-Signal Ratio. 
+    * I'm looking into making a custom `train_step(self, data)` and by extension `Model.fit()`
 * need to update installation instructions
 
 ### 4/6/22
-* Trying one last time to install sounddevice into tensorflow environment
-    * considering: alternative to sounddevice library
+* ~~Trying one last time to install sounddevice into tensorflow environment~~
+    * ~~considering: alternative to sounddevice library~~
     * **FINALLY** got it working. I exported the `environment.yaml`, but here's the manual installation process:
         1. `pip install python-rtmidi soundfile scipy`
         2. `conda install -c conda-forge libsndfile`
