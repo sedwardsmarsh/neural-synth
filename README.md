@@ -11,6 +11,19 @@ Goal of the project: Reproduct the input sound to the best of the network's abil
 
 ## starlog/TODO
 
+### 4/22/22
+* Hypothesis from Dad: the model will miss subtleties in the sound if two rendered audio buffers are not compared. 
+    * How will a network trained on just the knobs compare to a network trained by comparing audio (SNR loss).
+
+### 4/20/22
+* solved issue where custom optimizer wasn't working. Thank god
+* Model architecture needs improvement. 
+    * Basic (stacked GRUs) model: MSE loss starts at 5k -> 1.3k. train/test accuracy doesn't budge
+    * 
+
+### 4/17/22
+* ~~copy normalization function from cmpm 152 notebook~~
+
 ### 4/11/22
 * Had a very enlightening conversation with Ryan (stilgar) on discord. He suggested training the model to learn the parameter positions for each patch, instead of trying to input the model's predicted parameters into Massive and then measure the resulting ESR/SNR. This should work fine because the model will have the audio buffer as input and will definitely be differentiable, since we're not trying to convert the model predictions into some non-differentiable form i.e. running it thru Massive. 
 * Maybe using a genetic algorithm to train the network weights? 
