@@ -1,24 +1,50 @@
 # script for preprocessing audio files using librosa. Source: https://towardsdatascience.com/how-to-apply-machine-learning-and-deep-learning-methods-to-audio-analysis-615e286fcbbc
 # run with the conda environment: cmpm152
 
+from typing import Union
 import librosa
 import numpy as np
 import os
 import glob
 import pandas as pd
+from sklearn import preprocessing
 from datetime import datetime
 
 
 DATA_PATH = './data/simple_dataset/01/*'
 DF_PATH = './data/processed/'
 
+def normalize(array: list, scale_max: int=1, scale_min: int=0) -> list:
+    '''Returns a normalized array.
+    
+    Keyword arguments:
+    array -- array to normalize
+    scale_max -- maximum value to scale between
+    scale_min -- minimum value to scale between
+    '''
+    scaler = preprocessing.normalize(feature_range=(scale_min, scale_max))
+    return scaler.fit_transform(array)
 
-def extract_features(file_name) -> np.ndarray:
+def extract_features(file_name) -> list:
     '''Extracts features from the file and returns them'''
-    audio, sample_rate = librosa.load(file_name, res_type='kaiser_fast') 
-    mfccs = librosa.feature.mfcc(y=audio, sr=sample_rate, n_mfcc=4)
+    features = np.empty((0))
+    audio, sample_rate = librosa.load(file_name, res_type='kaiser_fast')
+    # calculate mel-frequency cepstral coefficients
+    mfccs = librosa.feature.mfcc(y=audio, sr=sample_rate, n_mfcc=16)
     mfccs_processed = np.mean(mfccs.T,axis=0)
-    return mfccs_processed
+    features = np.append(features, mfccs_processed)
+    # calculate root mean square
+    rms = librosa.feature.rms(y=audio)
+    features = np.append(features, rms)
+    # calculate zero crossing rate
+    zcr = librosa.feature.zero_crossing_rate(y=audio)
+    features = np.append(features, zcr)
+    # calculate spectral contrast
+    zcr = librosa.feature.zero_crossing_rate(y=audio)
+    features = np.append(features, zcr)
+    # normalize features
+    features = preprocessing.normalize(features.reshape(1, -1))
+    return features.tolist()[0]
 
 def make_feature_df(data_path: str=DATA_PATH) -> pd.DataFrame:
     features = []
