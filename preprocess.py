@@ -33,6 +33,9 @@ def extract_features(file_name) -> list:
     mfccs = librosa.feature.mfcc(y=audio, sr=sample_rate, n_mfcc=16)
     mfccs_processed = np.mean(mfccs.T,axis=0)
     features = np.append(features, mfccs_processed)
+    # calculate mel-spectrogram
+    ms = librosa.feature.melspectrogram(y=audio, sr=sample_rate)
+    ms = np.append(features, ms)
     # calculate root mean square
     rms = librosa.feature.rms(y=audio)
     features = np.append(features, rms)
@@ -40,8 +43,8 @@ def extract_features(file_name) -> list:
     zcr = librosa.feature.zero_crossing_rate(y=audio)
     features = np.append(features, zcr)
     # calculate spectral contrast
-    zcr = librosa.feature.zero_crossing_rate(y=audio)
-    features = np.append(features, zcr)
+    sc = librosa.feature.spectral_contrast(y=audio)
+    features = np.append(features, sc)
     # normalize features
     features = preprocessing.normalize(features.reshape(1, -1))
     return features.tolist()[0]
