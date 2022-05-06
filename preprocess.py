@@ -15,20 +15,9 @@ DATA_PATH = './data/simple_dataset/01/*'
 DF_PATH = './data/processed/'
 
 
-def normalize(array: list, scale_max: int=1, scale_min: int=0) -> list:
-    '''Returns a normalized array.
-    
-    Keyword arguments:
-    array -- array to normalize
-    scale_max -- maximum value to scale between
-    scale_min -- minimum value to scale between
+def extract_features(file_name: str) -> list:
+    '''Extracts features from the file.
     '''
-    scaler = preprocessing.normalize(feature_range=(scale_min, scale_max))
-    return scaler.fit_transform(array)
-
-
-def extract_features(file_name) -> list:
-    '''Extracts features from the file and returns them'''
     features = np.empty((0))
     audio, sample_rate = librosa.load(file_name, res_type='kaiser_fast')
     # calculate mel-frequency cepstral coefficients
@@ -36,8 +25,8 @@ def extract_features(file_name) -> list:
     mfccs_processed = np.mean(mfccs.T,axis=0)
     features = np.append(features, mfccs_processed)
     # calculate mel-spectrogram
-    ms = librosa.feature.melspectrogram(y=audio, sr=sample_rate)
-    ms = np.append(features, ms)
+    # ms = librosa.feature.melspectrogram(y=audio, sr=sample_rate, fmin='C4')
+    # ms = np.append(features, ms)
     # calculate root mean square
     rms = librosa.feature.rms(y=audio)
     features = np.append(features, rms)
@@ -48,16 +37,25 @@ def extract_features(file_name) -> list:
     sc = librosa.feature.spectral_contrast(y=audio)
     features = np.append(features, sc)
     # normalize features
-    features = preprocessing.normalize(features.reshape(1, -1))
+    features = preprocessing.normalize(features.reshape(1,-1))
     return features.tolist()[0]
 
 
-def make_feature_df(data_path: str=DATA_PATH) -> pd.DataFrame:
+def extract_labels(file_name: str) -> list:
+    '''Extracts the labels from a file_name.
+    '''
+    label_str = os.path.basename(file_name).split('.')[0]
+    label_list = [param_pair[1] for param_pair in eval(label_str)]
+    label_array = preprocessing.normalize(np.asarray(label_list).reshape(1,-1))
+    return label_array.tolist()[0]
+
+
+def make_df(data_path: str=DATA_PATH) -> pd.DataFrame:
     features = []
     # Iterate through each sound file and extract the features
-    file_paths = glob.glob(DATA_PATH)
+    file_paths = glob.glob(data_path)
     for i, file_name in enumerate(file_paths):
-        label = os.path.basename(file_name).split('.')[0]
+        label = extract_labels(file_name)
         data = extract_features(file_name)
         features.append([data, label])
         if i > 0 and i % (len(file_paths) * .1) == 0:
@@ -69,5 +67,5 @@ def make_feature_df(data_path: str=DATA_PATH) -> pd.DataFrame:
 
 # extract features and build dataframe
 time_now = str(datetime.now())[:-7]
-df = make_feature_df()
+df = make_df()
 df.to_csv(DF_PATH + f'dataset{time_now}.csv')
