@@ -1,5 +1,14 @@
-# tensorflow alpha installer
+# images
+*.png
+*.jpg
+*.jpeg
+
+# latex
+*.pdf
+
+# tensorflow
 tf_m1_alpha
+checkpoints
 
 # testing audio files & dataset & dataset generator
 *.wav

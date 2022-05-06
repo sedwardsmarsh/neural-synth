@@ -14,6 +14,7 @@ from datetime import datetime
 DATA_PATH = './data/simple_dataset/01/*'
 DF_PATH = './data/processed/'
 
+
 def normalize(array: list, scale_max: int=1, scale_min: int=0) -> list:
     '''Returns a normalized array.
     
@@ -24,6 +25,7 @@ def normalize(array: list, scale_max: int=1, scale_min: int=0) -> list:
     '''
     scaler = preprocessing.normalize(feature_range=(scale_min, scale_max))
     return scaler.fit_transform(array)
+
 
 def extract_features(file_name) -> list:
     '''Extracts features from the file and returns them'''
@@ -48,6 +50,7 @@ def extract_features(file_name) -> list:
     # normalize features
     features = preprocessing.normalize(features.reshape(1, -1))
     return features.tolist()[0]
+
 
 def make_feature_df(data_path: str=DATA_PATH) -> pd.DataFrame:
     features = []
