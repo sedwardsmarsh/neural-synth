@@ -15,7 +15,7 @@ DATA_PATH = './data/simple_dataset/01/*'
 DF_PATH = './data/processed/'
 
 
-def extract_features(file_name: str) -> list:
+def extract_features(file_name: str) -> list[int]:
     '''Extracts features from the file.
     '''
     features = np.empty((0))
@@ -41,8 +41,8 @@ def extract_features(file_name: str) -> list:
     return features.tolist()[0]
 
 
-def extract_labels(file_name: str) -> list:
-    '''Extracts the labels from a file_name.
+def extract_labels(file_name: str) -> list[int]:
+    '''Extracts the labels from a file name.
     '''
     label_str = os.path.basename(file_name).split('.')[0]
     label_list = [param_pair[1] for param_pair in eval(label_str)]
@@ -68,4 +68,5 @@ def make_df(data_path: str=DATA_PATH) -> pd.DataFrame:
 # extract features and build dataframe
 time_now = str(datetime.now())[:-7]
 df = make_df()
-df.to_csv(DF_PATH + f'dataset{time_now}.csv')
+# df.to_csv(DF_PATH + f'dataset{time_now}.csv')
+df.to_csv(DF_PATH + f'dataset with label norm.csv')
