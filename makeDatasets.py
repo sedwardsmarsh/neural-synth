@@ -1,23 +1,21 @@
-# File that makes datasets for the neural networks in neuralNetwork.py
+# The script responsible for generating the datasets from Massive
+# run with conda environment: env_tf_and_audio
 import random
 import midiDriver
 import audioRecorder
 import os
 import soundfile as sf
 
-# simple dataset: using only Wt-position, Intensity & Amp knobs.
-def make_simple_dataset(num_examples=100):
 
-    # array of arrays of tuples
-    # innermost array are examples
-    # tuples are (control number, control state) pairs
-    dataset = []
-
-    # generate random parameter configurations
+def make_simple_dataset(num_examples: int=100):
+    '''Generates datasets using only Wt-position, Intensity & Amp knobs.
+    
+    Dataset is in the form: [[(control number, control state), ..., num_examples-1]]
+    '''
+    dataset: list = []
     for n in range(num_examples):
         example = [(e, random.randint(0, 127)) for e in range(3)]
         dataset.append(example)
-
     return dataset
 
 # render a dataset: generate the corresponding sound files for
