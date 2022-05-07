@@ -12,6 +12,7 @@ import audioRecorder
 import os
 import soundfile as sf
 import pandas as pd
+import time
 
 
 DATA_DIR = './data'
@@ -60,5 +61,9 @@ def render_dataset(dataset: list[list[tuple[int, int]]], data_dir: str=DATA_DIR)
 
 
 number_of_examples = 1000
+start_time = time.time()
 param_configs = make_simple_dataset(number_of_examples)
+print(f'parameter configurations generation took: {time.time() - start_time} seconds')
+start_time = time.time()
 render_dataset(param_configs)
+print(f'dataset rendering took: {time.time() - start_time} seconds')
