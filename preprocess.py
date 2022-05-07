@@ -11,8 +11,8 @@ from sklearn import preprocessing
 from datetime import datetime
 
 
-DATA_PATH = './data/simple_dataset/01/*'
-DF_PATH = './data/processed/'
+SIMPLE_DATASET_PATH = './data/simple_dataset'
+DF_PATH = './data/preprocessed'
 
 
 def extract_features(file_name: str) -> list[int]:
@@ -50,11 +50,13 @@ def extract_labels(file_name: str) -> list[int]:
     return label_array.tolist()[0]
 
 
-def make_df(data_path: str=DATA_PATH) -> pd.DataFrame:
+def make_df(data_path: str=SIMPLE_DATASET_PATH) -> pd.DataFrame:
     features = []
     # Iterate through each sound file and extract the features
-    file_paths = glob.glob(data_path)
+    file_paths = glob.glob(f'{data_path}/*')
     for i, file_name in enumerate(file_paths):
+        if file_name[-3:] == 'csv':
+            continue
         label = extract_labels(file_name)
         data = extract_features(file_name)
         features.append([file_name, data, label])
@@ -62,10 +64,10 @@ def make_df(data_path: str=DATA_PATH) -> pd.DataFrame:
             print(f'{i/len(file_paths)}% complete')
     print('done')
     # Convert into a Pandas dataframe 
-    return pd.DataFrame(features, columns=['file name', 'features','labels'])
+    return pd.DataFrame(features, columns=['file name','features','labels'])
 
 
 # extract features and build dataframe
 time_now = str(datetime.now())[:-7]
 df = make_df()
-df.to_csv(DF_PATH + f'datasetFeat&LabelNorm{time_now}.csv')
+df.to_csv(f'{DF_PATH}/datasetFeat&LabelNorm{time_now}.csv')
