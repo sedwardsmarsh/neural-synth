@@ -2,14 +2,38 @@
 Neural Network & Genetic Algorithm Synthesizer using Native Instruments Massive (or puredata via OSC?)
 ---
 
-Goal of the project: Reproduct the input sound to the best of the network's ability, do not attempt to preprocess the input sound in any way. 
+Goal of the project: Reproduce the input sound to the best of the network's ability, do not attempt to preprocess the input sound in any way. 
 
 ---
 
 * Neural Network for heavy lifting (getting the sound as close as possible to the target sound)
 * GA for fine-tuning minizing the patch loss as close as possible
 
+```mermaid
+graph LR
+    A-->B
+    B-->C
+```
+
 ## starlog/TODO
+
+### 5/6/22
+* Submitted `midterm.pdf` and stuff for cmpm152 midterm
+* I'm wondering about model performance on raw audio buffer versus model performance on extracted features via librosa. 
+    * Maybe the model would benefit from having two heads (one for the raw audio buffer), one for the extracted features via librosa.
+    * Another model arch could be to convert the sound files to spectrogram images and setup a series of convolutional layers to parse the spectrogram image. Then, using the extracted latent meaning, run that information through a series of dense layers and recurrent layers in parallel?
+        * like the image in notability
+
+### 4/29/22
+* What do the predictions the model is making look like?
+    * I tried model.predict(train_data[0]) but got the error:
+        * `ValueError: Input 0 of layer sequential_25 is incompatible with the layer: : expected min_ndim=3, found ndim=2. Full shape received: (None, 2205)`
+
+### 4/25/22
+* Ideas from Brian: 
+    * is there a way to export automation series values from Ableton? In order to measure patches which modulate params over time.
+    * extract features using librosa and feed those to the network?
+        * https://towardsdatascience.com/how-to-apply-machine-learning-and-deep-learning-methods-to-audio-analysis-615e286fcbbc
 
 ### 4/22/22
 * Hypothesis from Dad: the model will miss subtleties in the sound if two rendered audio buffers are not compared. 
