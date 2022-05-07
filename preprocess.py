@@ -57,16 +57,15 @@ def make_df(data_path: str=DATA_PATH) -> pd.DataFrame:
     for i, file_name in enumerate(file_paths):
         label = extract_labels(file_name)
         data = extract_features(file_name)
-        features.append([data, label])
+        features.append([file_name, data, label])
         if i > 0 and i % (len(file_paths) * .1) == 0:
             print(f'{i/len(file_paths)}% complete')
     print('done')
     # Convert into a Pandas dataframe 
-    return pd.DataFrame(features, columns=['features','label'])
+    return pd.DataFrame(features, columns=['file name', 'features','labels'])
 
 
 # extract features and build dataframe
 time_now = str(datetime.now())[:-7]
 df = make_df()
-# df.to_csv(DF_PATH + f'dataset{time_now}.csv')
-df.to_csv(DF_PATH + f'dataset with label norm.csv')
+df.to_csv(DF_PATH + f'datasetFeat&LabelNorm{time_now}.csv')
