@@ -19,9 +19,14 @@ graph LR
 
 ## starlog/TODO
 
+### 5/13/22
+
+* [Doing this](#42922)
+  * Now I need to see what kind of predictions the model is making. Make some plots for the model's performance and other metrics for evaluating performance. 
+
 ### 5/7/22
 
-* need to verify dataset generation isn't creating duplicate files
+* ~~need to verify dataset generation isn't creating duplicate files~~
 
 ### 5/6/22
 
