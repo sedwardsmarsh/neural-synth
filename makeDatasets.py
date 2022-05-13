@@ -20,7 +20,7 @@ SIMPLE_DATASET_CSV = 'simple_dataset.csv'
 
 
 def make_simple_dataset(num_examples: int=100) -> list[list[tuple[int, int]]]:
-    '''Generates datasets using only Wt-position, Intensity & Amp knobs.
+    '''Generates datasets using only Wt-position, Intensity & Amp knobs. There are 127 * 127 * 127 = 127^3 = 2,048,383 configurations.
     
     Dataset is in the form: [[(control number, control state), ..., num_examples-1]]
     '''
