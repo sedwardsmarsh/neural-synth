@@ -21,8 +21,14 @@ graph LR
 
 ### 5/13/22
 
+* [Still need to see how a model performs on spectrogram images of sound files](#5622)
+* Also going to work on attaching a second head to the network that feeds on raw audio buffers.
 * [Doing this](#42922)
-  * Now I need to see what kind of predictions the model is making. Make some plots for the model's performance and other metrics for evaluating performance. 
+  * Now I need to see what kind of predictions the model is making. Make some plots for the model's performance and other metrics for evaluating performance.
+  * Since the data is normalized, the model makes normalized predictions. How can I scale the predictions made by the model back into values b/w [0, 127]?
+    * Looking at sklearn's `inverse_transform()`. I'm going to have to redo normalization using StandardScaler() instead of Normalizer and I'll need to save the `mean_` and `std_`. Do this inside `preprocess.py`.
+      * helpful: <https://stackoverflow.com/questions/36593665/undo-l2-normalization-in-sklearn-python>
+* epochs at 500 became stagnant around 220 with lr=0.001
 
 ### 5/7/22
 
