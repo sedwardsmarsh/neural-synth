@@ -1,7 +1,6 @@
 # script for preprocessing audio files using librosa. Source: https://towardsdatascience.com/how-to-apply-machine-learning-and-deep-learning-methods-to-audio-analysis-615e286fcbbc
 # run with the conda environment: cmpm152
 
-from typing import Union
 import librosa
 import numpy as np
 import os
@@ -13,6 +12,14 @@ from datetime import datetime
 
 SIMPLE_DATASET_PATH = './data/simple_dataset'
 DF_PATH = './data/preprocessed'
+
+
+def normalize(features) -> list:
+    '''Normalize features.
+    '''
+    weight = np.sqrt(np.sum(np.power(features,2)))
+    normalized_features = features/weight
+    return normalized_features.tolist(), weight
 
 
 def extract_features(file_name: str) -> list[int]:
@@ -36,9 +43,7 @@ def extract_features(file_name: str) -> list[int]:
     # calculate spectral contrast
     sc = librosa.feature.spectral_contrast(y=audio)
     features = np.append(features, sc)
-    # normalize features
-    features = preprocessing.normalize(features.reshape(1,-1))
-    return features.tolist()[0]
+    return features.tolist()
 
 
 def extract_labels(file_name: str) -> list[int]:
@@ -46,8 +51,7 @@ def extract_labels(file_name: str) -> list[int]:
     '''
     label_str = os.path.basename(file_name).split('.')[0]
     label_list = [param_pair[1] for param_pair in eval(label_str)]
-    label_array = preprocessing.normalize(np.asarray(label_list).reshape(1,-1))
-    return label_array.tolist()[0]
+    return label_list
 
 
 def make_df(data_path: str=SIMPLE_DATASET_PATH) -> pd.DataFrame:
@@ -59,15 +63,17 @@ def make_df(data_path: str=SIMPLE_DATASET_PATH) -> pd.DataFrame:
             continue
         label = extract_labels(file_name)
         data = extract_features(file_name)
-        features.append([file_name, data, label])
+        label, label_weight = normalize(label)
+        data, _ = normalize(data)
+        features.append([file_name, data, label, label_weight])
         if i > 0 and i % (len(file_paths) * .1) == 0:
             print(f'{i/len(file_paths)}% complete')
     print('done')
     # Convert into a Pandas dataframe 
-    return pd.DataFrame(features, columns=['file name','features','labels'])
+    return pd.DataFrame(features, columns=['file name','features','labels','label norm weight'])
 
 
 # extract features and build dataframe
 time_now = str(datetime.now())[:-7]
 df = make_df()
-df.to_csv(f'{DF_PATH}/datasetFeat&LabelNorm{time_now}.csv')
+df.to_csv(f'{DF_PATH}/datasetFeat&LabelL2Norm{time_now}.csv')
