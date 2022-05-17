@@ -19,15 +19,23 @@ graph LR
 
 ## starlog/TODO
 
+### 5/17/22
+
+* Going to switch to normalizing entire columns. So I'll need to restructure the dataframe.
+
 ### 5/13/22
 
+* It seems like its correct to be using normalization over standardization as this dataset [does not follow a guassian distribution](https://www.analyticsvidhya.com/blog/2020/04/feature-scaling-machine-learning-normalization-standardization/). I'm assuming this dataset doesn't follow a guassian distribution because the random variables controlling each parameter $P_i$ aren't combined in any way. These parameters ulimately lead to the soundfile that is generated, which I assume is random.
+* Am i even scaling the dataset correctly? I'm scaling each example individually, instead of scaling the entire training set in one go.
 * [Still need to see how a model performs on spectrogram images of sound files](#5622)
 * Also going to work on attaching a second head to the network that feeds on raw audio buffers.
 * [Doing this](#42922)
   * Now I need to see what kind of predictions the model is making. Make some plots for the model's performance and other metrics for evaluating performance.
   * Since the data is normalized, the model makes normalized predictions. How can I scale the predictions made by the model back into values b/w [0, 127]?
     * Looking at sklearn's `inverse_transform()`. I'm going to have to redo normalization using StandardScaler() instead of Normalizer and I'll need to save the `mean_` and `std_`. Do this inside `preprocess.py`.
-      * helpful: <https://stackoverflow.com/questions/36593665/undo-l2-normalization-in-sklearn-python>
+      * helpful: <https://datascience.stackexchange.com/questions/56924/should-we-denormalize-our-data-after-normalization>
+      * **L2 normalization**: <https://stackoverflow.com/questions/36593665/undo-l2-normalization-in-sklearn-python>
+      * L2 from WA: <https://mathworld.wolfram.com/L2-Norm.html>
 * epochs at 500 became stagnant around 220 with lr=0.001
 
 ### 5/7/22
