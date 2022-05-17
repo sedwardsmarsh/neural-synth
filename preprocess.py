@@ -6,20 +6,21 @@ import numpy as np
 import os
 import glob
 import pandas as pd
-from sklearn import preprocessing
 from datetime import datetime
+from sklearn import preprocessing
 
 
 SIMPLE_DATASET_PATH = './data/simple_dataset'
 DF_PATH = './data/preprocessed'
 
 
-def normalize(features) -> list:
-    '''Normalize features.
+def normalize(array) -> list:
+    '''Normalize array.
     '''
-    weight = np.sqrt(np.sum(np.power(features,2)))
-    normalized_features = features/weight
-    return normalized_features.tolist(), weight
+    weight = np.sqrt(np.sum(np.power(array,2)))
+    normalized_array = array/weight
+    # normalized_array = preprocessing.normalize(np.asarray(array).reshape(1,-1))
+    return normalized_array.tolist(), weight
 
 
 def extract_features(file_name: str) -> list[int]:
