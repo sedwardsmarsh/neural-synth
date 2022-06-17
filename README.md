@@ -1,4 +1,4 @@
-# ga-synth
+# neural-synth
 Genetic Algorithm Synthesizer using Native Instruments Massive
 <hr>
 
