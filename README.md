@@ -1,4 +1,4 @@
-# ga-synth
+# neural-synth
 
 Neural Network & Genetic Algorithm Synthesizer using Native Instruments Massive (or puredata via OSC?)
 
